@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BondStats SDK Deterministic Test</title><style>body{margin:0;background:#070a09;color:#eef4f1;font:14px/1.5 Inter,system-ui,sans-serif}.wrap{max-width:1000px;margin:auto;padding:28px 18px 60px}.status{padding:14px 16px;border:1px solid #202724;border-radius:10px;margin-bottom:18px}.pass{color:#29e783}.fail{color:#e49a75}pre{white-space:pre-wrap;background:#0b0f0d;border:1px solid #202724;border-radius:10px;padding:14px;color:#c9d5cf;overflow:auto}bondstats-system-pressure,bondstats-sovereign-spread,bondstats-financial-clock,bondstats-curve-signal{display:block;margin:12px 0}</style></head><body><main class="wrap">
+<div id="status" class="status">Running deterministic SDK test…</div>
+<script src="./embed.js" data-bondstats-data-url="./test-feed.json" defer></script>
+<bondstats-system-pressure id="p"></bondstats-system-pressure>
+<bondstats-sovereign-spread id="s" market="Italy" benchmark="Germany"></bondstats-sovereign-spread>
+<bondstats-financial-clock id="c" cities="London,New York,Tokyo,Singapore,Hong Kong"></bondstats-financial-clock>
+<bondstats-curve-signal id="q" market="United States" short="2Y" long="10Y"></bondstats-curve-signal>
+<div id="d" data-bondstats-widget="sovereign-spread" data-market="France" data-benchmark="Germany" class="preserve"></div>
+<pre id="out">waiting</pre>
+<script>
+window.addEventListener('load',()=>setTimeout(async()=>{
+ try{
+  const spread=await BondStats.getSpread('Italy','Germany');
+  const curve=await BondStats.getCurveSignal('United States','2Y','10Y');
+  const diag=await BondStats.diagnostics();
+  const upgraded=document.querySelector('.preserve');
+  const checks={
+   spreadLevel: Math.round(spread.spreadBps)===120,
+   mixedFrequencyChangeSuppressed: spread.changeAvailable===false && spread.changeBps===null,
+   delayedBenchmarkLabelled: ['Latest available','Delayed'].includes(spread.benchmarkStatus?.label),
+   curveAvailable: curve.available===true,
+   curveSlope: Math.round(curve.slopeBps)===20,
+   curveClassification: curve.label==='Bear Steepening',
+   dataAttributeUpgrade: upgraded?.tagName==='BONDSTATS-SOVEREIGN-SPREAD',
+   internalSelfTest: BondStats.selfTest().pass===true,
+   diagnostics: diag.ok===true
+  };
+  const pass=Object.values(checks).every(Boolean);
+  document.querySelector('#status').innerHTML=`<strong class="${pass?'pass':'fail'}">${pass?'PASS':'FAIL'}</strong> · deterministic data-policy and component test`;
+  const result={checks,spreadBps:spread.spreadBps,spreadChangeAvailable:spread.changeAvailable,spreadChangeBps:spread.changeBps,marketStatus:spread.marketStatus?.label,benchmarkStatus:spread.benchmarkStatus?.label,curveSlopeBps:curve.slopeBps,curveLabel:curve.label,selfTest:BondStats.selfTest(),diagnostics:diag};
+  document.querySelector('#out').textContent=JSON.stringify(result,null,2);
+ }catch(e){document.querySelector('#status').innerHTML=`<strong class="fail">FAIL</strong> · ${e.message}`;document.querySelector('#out').textContent=e.stack||String(e)}
+},1800));
+</script></main></body></html>

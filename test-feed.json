@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "title": "BondStats SDK deterministic test feed",
+    "lastUpdated": "2026-08-27T00:00:00Z"
+  },
+  "countries": {
+    "germany": {
+      "label": "Germany",
+      "value": 3.0,
+      "previousValue": 2.99,
+      "change": 0.01,
+      "frequency": "monthly",
+      "stalenessDays": 30,
+      "isFallback": false,
+      "date": "2026-07-28",
+      "source": "TEST"
+    },
+    "italy": {
+      "label": "Italy",
+      "value": 4.2,
+      "previousValue": 4.16,
+      "change": 0.04,
+      "frequency": "daily",
+      "stalenessDays": 0,
+      "isFallback": false,
+      "date": "2026-08-27",
+      "source": "TEST"
+    },
+    "france": {
+      "label": "France",
+      "value": 3.4,
+      "previousValue": 3.39,
+      "change": 0.01,
+      "frequency": "daily",
+      "stalenessDays": 0,
+      "isFallback": false,
+      "date": "2026-08-27",
+      "source": "TEST"
+    },
+    "united_states": {
+      "label": "United States",
+      "value": 4.5,
+      "previousValue": 4.45,
+      "change": 0.05,
+      "frequency": "daily",
+      "stalenessDays": 0,
+      "isFallback": false,
+      "date": "2026-08-27",
+      "source": "TEST"
+    },
+    "united_kingdom": {
+      "label": "United Kingdom",
+      "value": 5.0,
+      "previousValue": 4.98,
+      "change": 0.02,
+      "frequency": "daily",
+      "stalenessDays": 0,
+      "isFallback": false,
+      "date": "2026-08-27",
+      "source": "TEST"
+    },
+    "norway": {
+      "label": "Norway",
+      "value": 4.1,
+      "previousValue": 4.11,
+      "change": -0.01,
+      "frequency": "daily",
+      "stalenessDays": 0,
+      "isFallback": false,
+      "date": "2026-08-27",
+      "source": "TEST"
+    }
+  },
+  "markets": {
+    "United States": {
+      "2Y": {
+        "country": "United States",
+        "tenor": "2Y",
+        "yield": 4.3,
+        "previousValue": 4.3,
+        "frequency": "daily",
+        "stalenessDays": 0,
+        "isFallback": false,
+        "date": "2026-08-27",
+        "source": "TEST"
+      },
+      "10Y": {
+        "country": "United States",
+        "tenor": "10Y",
+        "yield": 4.5,
+        "previousValue": 4.45,
+        "frequency": "daily",
+        "stalenessDays": 0,
+        "isFallback": false,
+        "date": "2026-08-27",
+        "source": "TEST"
+      }
+    }
+  }
+}
