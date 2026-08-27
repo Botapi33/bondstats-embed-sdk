@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><body>
+<script src="./embed.js" data-bondstats-data-url="./test-feed.json" defer></script>
+<bondstats-system-pressure id="p"></bondstats-system-pressure>
+<bondstats-sovereign-spread id="s" market="Italy" benchmark="Germany"></bondstats-sovereign-spread>
+<bondstats-financial-clock id="c" cities="London,New York,Tokyo,Singapore,Hong Kong"></bondstats-financial-clock>
+<bondstats-curve-signal id="q" market="United States" short="2Y" long="10Y"></bondstats-curve-signal>
+<div id="d" data-bondstats-widget="sovereign-spread" data-market="France" data-benchmark="Germany" class="preserve"></div>
+<pre id="out">waiting</pre>
+<script>
+window.addEventListener('load',()=>setTimeout(async()=>{
+ const spread=await BondStats.getSpread('Italy','Germany');
+ const curve=await BondStats.getCurveSignal('United States','2Y','10Y');
+ const diag=await BondStats.diagnostics();
+ const result={
+  spreadBps:Math.round(spread.spreadBps),
+  spreadChangeBps:Math.round(spread.changeBps),
+  curveAvailable:curve.available,
+  curveSlopeBps:Math.round(curve.slopeBps),
+  pressureText:document.querySelector('#p').shadowRoot.textContent.replace(/\s+/g,' ').trim().slice(0,180),
+  spreadText:document.querySelector('#s').shadowRoot.textContent.replace(/\s+/g,' ').trim().slice(0,180),
+  clockText:document.querySelector('#c').shadowRoot.textContent.replace(/\s+/g,' ').trim().slice(0,180),
+  curveText:document.querySelector('#q').shadowRoot.textContent.replace(/\s+/g,' ').trim().slice(0,180),
+  upgradedTag:document.querySelector('.preserve')?.tagName,
+  links:BondStats.links,
+  diag
+ };
+ document.querySelector('#out').textContent=JSON.stringify(result,null,2);
+},1800));
+</script>
+</body>
